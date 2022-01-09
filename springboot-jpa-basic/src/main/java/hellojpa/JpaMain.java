@@ -42,10 +42,15 @@ public class JpaMain {
 //            Member member = em.find(Member.class, 150L);
 //            member.setName("zzzzz");
 
-            Member member = new Member(201L, "member200");
+           /* Member member = new Member(201L, "member200");
             em.persist(member);
             em.flush();
             Member member1 = em.find(Member.class, 201L);
+*/
+            Member member = em.find(Member.class, 150L);
+            member.setName("AAAA");
+
+            em.detach(member);
 
             System.out.println("=================================");
 
