@@ -16,16 +16,21 @@ public class JpaMain {
         transaction.begin();
         try {
             //비 영속성
-            Member member = new Member();
-            member.setName("HelloJPA");
-            member.setId(100L);
+//            Member member = new Member();
+//            member.setName("HelloJPA");
+//            member.setId(101L);
 
             //영속
-            System.out.println("==== BEFORE=====");
-            em.persist(member);
-            System.out.println("==== AFTER=====");
+//            System.out.println("==== BEFORE=====");
+//            em.persist(member);
+//            System.out.println("==== AFTER=====");
 
-          //  Member member = em.find(Member.class, 1L);
+//            Member findMember1 = em.find(Member.class, 100L);
+//            Member findMember12 = em.find(Member.class, 100L);
+            /*System.out.println("findMember.getName() = " + findMember.getName());
+            System.out.println("findMember.getId() = " + findMember.getId());
+*/
+            //  Member member = em.find(Member.class, 1L);
       /*   List<Member> result =  em.createQuery("select m from Member as m",Member.class)
                  .setFirstResult(1)
                  .setMaxResults(10)
@@ -34,12 +39,18 @@ public class JpaMain {
                 System.out.println("member.getName() = " + member.getName());
             }
 */
-         transaction.commit();
-        }catch(Exception e) {
-            transaction.rollback();;
-        }finally {
+            Member member = em.find(Member.class, 150L);
+            member.setName("zzzzz");
 
-        em.close();
+            System.out.println("=================================");
+
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            ;
+        } finally {
+
+            em.close();
         }
         emf.close();
 
