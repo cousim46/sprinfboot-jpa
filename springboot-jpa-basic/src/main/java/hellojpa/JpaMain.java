@@ -52,13 +52,12 @@ public class JpaMain {
 //
 //            em.detach(member);
 //
-//            System.out.println("=================================");
 
             Member member = new Member();
-            member.setId(3L);
             member.setUsername("c");
-            member.setRoleType(RoleType.GUEST);
+
             em.persist(member);
+            System.out.println("=================================");
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
