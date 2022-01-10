@@ -47,13 +47,18 @@ public class JpaMain {
             em.flush();
             Member member1 = em.find(Member.class, 201L);
 */
-            Member member = em.find(Member.class, 150L);
-            member.setName("AAAA");
+//            Member member = em.find(Member.class, 150L);
+//            member.setName("AAAA");
+//
+//            em.detach(member);
+//
+//            System.out.println("=================================");
 
-            em.detach(member);
-
-            System.out.println("=================================");
-
+            Member member = new Member();
+            member.setId(3L);
+            member.setUsername("c");
+            member.setRoleType(RoleType.GUEST);
+            em.persist(member);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
