@@ -27,8 +27,8 @@ public class Member {
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
 
-   @OneToMany(mappedBy = "MEMBER_ID")
-   private List<Member> member= new ArrayList<>();
+   @OneToMany(mappedBy = "member")
+   private List<MemberProduct> member= new ArrayList<>();
    /* @Column(name="TEAM_ID")
     private Long teamId;
 */

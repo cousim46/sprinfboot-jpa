@@ -15,15 +15,17 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member = new Member();
-            member.setUsername("member1");
-            em.persist(member);
+           Movie movie = new Movie();
+           movie.setDirector("aaa");
+           movie.setActor("bbb");
+           movie.setName("바람");
+           movie.setPrice(10000);
+           em.persist(movie);
 
-            Team team = new Team();
-            team.setName("teamA");
-            team.getMembers().add(member);
-            em.persist(team);
-
+           em.flush();
+           em.clear();
+            Movie movie1 = em.find(Movie.class, movie.getId());
+            System.out.println("movie1 = " + movie1);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
