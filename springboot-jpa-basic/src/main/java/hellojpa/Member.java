@@ -13,7 +13,7 @@ import java.util.List;
         table="MY_SEQUENCES"
         ,pkColumnValue = "MEMBER_SEQ", allocationSize = 1)*/
 
-public class Member {
+public class Member extends BaseEntity{
 
 
     @Id @GeneratedValue
@@ -29,6 +29,9 @@ public class Member {
 
    @OneToMany(mappedBy = "member")
    private List<MemberProduct> member= new ArrayList<>();
+
+
+
    /* @Column(name="TEAM_ID")
     private Long teamId;
 */
