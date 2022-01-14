@@ -1,3 +1,4 @@
+/*
 package hellojpa;
 
 import javax.persistence.Entity;
@@ -12,3 +13,4 @@ public class Locker {
 
     private String name;
 }
+*/

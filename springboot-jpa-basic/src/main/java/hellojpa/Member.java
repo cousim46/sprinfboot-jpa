@@ -23,16 +23,42 @@ public class Member extends BaseEntity{
     @Column(name = "USERNAME")
     private String username;
 
-    @OneToOne
+    /*@OneToOne
     @JoinColumn(name = "LOCKER_ID")
-    private Locker locker;
+    private Locker locker;*/
 
    @OneToMany(mappedBy = "member")
    private List<MemberProduct> member= new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="TEAM_ID")
+    private Team team;
 
+   /* public Locker getLocker() {
+        return locker;
+    }
 
-   /* @Column(name="TEAM_ID")
+    public void setLocker(Locker locker) {
+        this.locker = locker;
+    }*/
+
+    public List<MemberProduct> getMember() {
+        return member;
+    }
+
+    public void setMember(List<MemberProduct> member) {
+        this.member = member;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    /* @Column(name="TEAM_ID")
     private Long teamId;
 */
 
