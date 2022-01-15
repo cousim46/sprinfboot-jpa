@@ -16,15 +16,32 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Address address = new Address("city", "street", "zipcode");
-            Member member1 = new Member();
-            member1.setUsername("hello");
-            member1.setHomeAddress(address);
-            em.persist(member1);
 
-            Address newAddress = new Address("newCity", address.getStreet(), address.getZipcode());
-            member1.setHomeAddress(newAddress);
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("city","street","10000"));
+            
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
 
+            member.getAddressHistory().add(new Address("old1","street","10000"));
+            member.getAddressHistory().add(new Address("old2","street","10000"));
+
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            System.out.println("====================================");
+            Member findMember = em.find(Member.class, member.getId());
+
+            Address address = findMember.getHomeAddress();
+            findMember.setHomeAddress(new Address("oldCity",address.getStreet(),address.getZipcode()));
+            findMember.getFavoriteFoods().remove("치킨");
+            findMember.getFavoriteFoods().add("한식");
+            findMember.getAddressHistory().remove(new Address("old1","street","10000"));
+            findMember.getAddressHistory().add(new Address("newCity","street","10000"));
 
 
             transaction.commit();
