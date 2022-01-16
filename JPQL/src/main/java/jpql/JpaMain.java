@@ -13,16 +13,26 @@ public class JpaMain {
         transaction.begin();
         try {
 
-            Member member = new Member();
-            member.setUsername("member1");
-            em.persist(member);
 
-            List<MemberDTO> result = em.createQuery("select new jpql.MemberDTO(m.username,m.age) from Member m ", MemberDTO.class)
+                Team team = new Team();
+                team.setName("teamA");
+                em.persist(team);
+
+                Member member = new Member();
+                member.setUsername("teamA");
+                member.setAge(10);
+                member.setTeam(team);
+                em.persist(member);
+
+
+
+            em.flush();
+            em.clear();
+
+            String query= "select m from Member m left join Team t on m.username = t.name ";
+            List<Member> result = em.createQuery(query, Member.class)
                     .getResultList();
 
-            MemberDTO memberDTO = result.get(0);
-            System.out.println("memberDTO.getUsername() = " + memberDTO.getUsername());
-            System.out.println("memberDTO.getUsername() = " + memberDTO.getAge());
 
 
             transaction.commit();
