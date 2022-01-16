@@ -16,34 +16,12 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
+            List<Member> resultList = em.createQuery(
+                    "select m from Member m where m.username like '%kim%'", Member.class).getResultList();
 
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setHomeAddress(new Address("city","street","10000"));
-            
-            member.getFavoriteFoods().add("치킨");
-            member.getFavoriteFoods().add("족발");
-            member.getFavoriteFoods().add("피자");
-
-            member.getAddressHistory().add(new Address("old1","street","10000"));
-            member.getAddressHistory().add(new Address("old2","street","10000"));
-
-            em.persist(member);
-
-            em.flush();
-            em.clear();
-
-            System.out.println("====================================");
-            Member findMember = em.find(Member.class, member.getId());
-
-            Address address = findMember.getHomeAddress();
-            findMember.setHomeAddress(new Address("oldCity",address.getStreet(),address.getZipcode()));
-            findMember.getFavoriteFoods().remove("치킨");
-            findMember.getFavoriteFoods().add("한식");
-            findMember.getAddressHistory().remove(new Address("old1","street","10000"));
-            findMember.getAddressHistory().add(new Address("newCity","street","10000"));
-
-
+            for (Member member : resultList) {
+                System.out.println("member = " + member);
+            }
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
