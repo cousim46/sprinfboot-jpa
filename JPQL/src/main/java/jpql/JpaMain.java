@@ -36,13 +36,13 @@ public class JpaMain {
             member3.setTeam(teamB);
             em.persist(member3);
 
-            em.flush();
-            em.clear();
-
-
-            String query = "select t from Team t join fetch t.members m";
-            List<Team> result = em.createQuery(query, Team.class).getResultList();
-            System.out.println("result = " + result.size());
+            int resultCount= em.createQuery("update Member m set m.age=20 where m.username='회원1'")
+                    .executeUpdate();
+            System.out.println("resultCount = " + resultCount);
+            List<Member> find = em.createQuery("select m from Member m", Member.class).getResultList();
+            for (Member member : find) {
+                System.out.println("member = " + member);
+            }
 
             transaction.commit();
         } catch (Exception e) {
