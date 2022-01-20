@@ -1,5 +1,6 @@
 package japbook.jpashop;
 
+import japbook.jpashop.domain.Member;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.stereotype.Repository;
 
