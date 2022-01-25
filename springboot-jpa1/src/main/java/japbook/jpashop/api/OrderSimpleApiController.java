@@ -4,6 +4,7 @@ import japbook.jpashop.domain.Address;
 import japbook.jpashop.domain.Order;
 import japbook.jpashop.domain.OrderStatus;
 import japbook.jpashop.repository.OrderRepository;
+import japbook.jpashop.repository.SimpleOrderQueryDto;
 import japbook.jpashop.service.OrderSearch;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,10 @@ public class OrderSimpleApiController {
         return result;
 
     }
-
+    @GetMapping("/api/v4/simple-orders")
+    public List<SimpleOrderQueryDto> ordersV4() {
+        return orderRepository.findOrderDtos();
+    }
     @Data
     private class SimpleOrderDto {
         private Long orderId;
@@ -66,10 +70,11 @@ public class OrderSimpleApiController {
 
         public SimpleOrderDto(Order order) {
             orderId = order.getId();
-             name = order.getMember().getName();
+            name = order.getMember().getName();
             orderDate = order.getOrderDate();
             orderStatus = order.getStatus();
             address = order.getDelivery().getAddress();
         }
     }
+
 }
