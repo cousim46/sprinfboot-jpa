@@ -4,6 +4,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDto;
@@ -157,6 +161,45 @@ public class MemberRepositoryTest {
         }*/
       /*  Member member = memberRepository.findMemberByUsername("AAA");
         System.out.println("member = " + member);*/
+
+
+
+    }
+
+    @Test
+    public void paging() throws Exception {
+        //given
+        memberRepository.save(new Member("member1",10));
+        memberRepository.save(new Member("member2",10));
+        memberRepository.save(new Member("member3",10));
+        memberRepository.save(new Member("member4",10));
+        memberRepository.save(new Member("member5",10));
+        memberRepository.save(new Member("member6",10));
+        memberRepository.save(new Member("member7",10));
+
+        int age = 10;
+        int offset = 0;
+        int limit = 3;
+
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
+        //when
+       Page<Member> page = memberRepository.findByAge(age,pageRequest);
+       page.map(member -> new MemberDto(member.getId(), member.getUsername(),null));
+       /// Slice<Member> page = memberRepository.findByAge(age,pageRequest);
+
+
+        //then
+        List<Member> content = page.getContent();
+
+
+
+        long totalElements = page.getTotalElements();
+
+       Assertions.assertThat(content.size()).isEqualTo(3);
+       Assertions.assertThat(page.getTotalElements()).isEqualTo(7);
+       Assertions.assertThat(page.getTotalPages()).isEqualTo(3);
+       Assertions.assertThat(page.isFirst()).isTrue();
+       Assertions.assertThat(page.hasNext()).isTrue();
 
 
 
