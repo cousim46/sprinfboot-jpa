@@ -45,9 +45,9 @@ class MemberJpaRepositoryTest {
         Assertions.assertThat(findMember1).isEqualTo(member1);
         Assertions.assertThat(findMember2).isEqualTo(member2);
         // 변경감지
-    //    findMember1.setUsername("update!!!");
+        //    findMember1.setUsername("update!!!");
 
-      // 리스트 조회 검증
+        // 리스트 조회 검증
         List<Member> all = memberJpaRepository.findAll();
         Assertions.assertThat(all.size()).isEqualTo(2);
         // 카운트 검증
@@ -63,7 +63,31 @@ class MemberJpaRepositoryTest {
 
     }
 
+    @Test
+    public void findByUsernameAndAgeGraterThen() throws Exception {
+        Member member1 = new Member("AAA", 10);
+        Member member2 = new Member("AAA", 20);
+        memberJpaRepository.save(member1);
+        memberJpaRepository.save(member2);
 
+        List<Member> result = memberJpaRepository.findByUsernameAndAgeGraterThen("AAA", 15);
+
+        Assertions.assertThat(result.get(0).getAge()).isEqualTo(20);
+        Assertions.assertThat(result.size()).isEqualTo(1);
+
+
+    }
+
+    @Test
+    public void testNamedQuery() throws Exception {
+        Member member1 = new Member("AAA", 10);
+        Member member2 = new Member("bbb", 20);
+        memberJpaRepository.save(member1);
+        memberJpaRepository.save(member2);
+        List<Member> result = memberJpaRepository.findByUsername("AAA");
+        Member member = result.get(0);
+        Assertions.assertThat(member).isEqualTo(member1);
+    }
 
 
 }
