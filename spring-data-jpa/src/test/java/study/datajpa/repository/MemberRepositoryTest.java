@@ -167,19 +167,18 @@ public class MemberRepositoryTest {
         System.out.println("member = " + member);*/
 
 
-
     }
 
     @Test
     public void paging() throws Exception {
         //given
-        memberRepository.save(new Member("member1",10));
-        memberRepository.save(new Member("member2",10));
-        memberRepository.save(new Member("member3",10));
-        memberRepository.save(new Member("member4",10));
-        memberRepository.save(new Member("member5",10));
-        memberRepository.save(new Member("member6",10));
-        memberRepository.save(new Member("member7",10));
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 10));
+        memberRepository.save(new Member("member3", 10));
+        memberRepository.save(new Member("member4", 10));
+        memberRepository.save(new Member("member5", 10));
+        memberRepository.save(new Member("member6", 10));
+        memberRepository.save(new Member("member7", 10));
 
         int age = 10;
         int offset = 0;
@@ -187,40 +186,38 @@ public class MemberRepositoryTest {
 
         PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
         //when
-       Page<Member> page = memberRepository.findByAge(age,pageRequest);
-       page.map(member -> new MemberDto(member.getId(), member.getUsername(),null));
-       /// Slice<Member> page = memberRepository.findByAge(age,pageRequest);
+        Page<Member> page = memberRepository.findByAge(age, pageRequest);
+        page.map(member -> new MemberDto(member.getId(), member.getUsername(), null));
+        /// Slice<Member> page = memberRepository.findByAge(age,pageRequest);
 
 
         //then
         List<Member> content = page.getContent();
 
 
-
         long totalElements = page.getTotalElements();
 
-       Assertions.assertThat(content.size()).isEqualTo(3);
-       Assertions.assertThat(page.getTotalElements()).isEqualTo(7);
-       Assertions.assertThat(page.getTotalPages()).isEqualTo(3);
-       Assertions.assertThat(page.isFirst()).isTrue();
-       Assertions.assertThat(page.hasNext()).isTrue();
-
+        Assertions.assertThat(content.size()).isEqualTo(3);
+        Assertions.assertThat(page.getTotalElements()).isEqualTo(7);
+        Assertions.assertThat(page.getTotalPages()).isEqualTo(3);
+        Assertions.assertThat(page.isFirst()).isTrue();
+        Assertions.assertThat(page.hasNext()).isTrue();
 
 
     }
 
     @Test
     public void bulkUpdate() throws Exception {
-        memberRepository.save(new Member("member1",10));
-        memberRepository.save(new Member("member2",19));
-        memberRepository.save(new Member("member3",20));
-        memberRepository.save(new Member("member4",21));
-        memberRepository.save(new Member("member5",40));
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 19));
+        memberRepository.save(new Member("member3", 20));
+        memberRepository.save(new Member("member4", 21));
+        memberRepository.save(new Member("member5", 40));
 
         // when
         int resultCount = memberRepository.bulkAgePlus(20);
 
-       // em.clear();
+        // em.clear();
         List<Member> result = memberRepository.findByUsername("member5");
         Member member5 = result.get(0);
         System.out.println("member5 = " + member5);
@@ -242,9 +239,9 @@ public class MemberRepositoryTest {
         em.flush();
         em.clear();
         // when
-       // List<Member> members = memberRepository.findAll();
+        // List<Member> members = memberRepository.findAll();
         List<Member> members = memberRepository.findEntityGraphByUsername("member1");
-       // List<Member> members = memberRepository.findMemberFetchJoin();
+        // List<Member> members = memberRepository.findMemberFetchJoin();
         System.out.println("====================================");
 
         for (Member member : members) {
@@ -267,7 +264,7 @@ public class MemberRepositoryTest {
         findMember.setUsername("member2");
         em.flush();
     }
-    
+
     @Test
     public void lock() throws Exception {
         Member member = new Member("member1", 10);
@@ -288,6 +285,22 @@ public class MemberRepositoryTest {
         // when
 
         // then
+    }
+
+    @Test
+    public void specBasic() throws Exception {
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member member1 = new Member("m1", 0, teamA);
+        Member member2 = new Member("m2", 0, teamA);
+
+        em.persist(member1);
+        em.persist(member2);
+        em.flush();
+        em.clear();
+
+        memberRepository.findAll();
     }
 
 }
